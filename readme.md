@@ -1,0 +1,1 @@
+# Local Library project from mozilla firefox documentation
