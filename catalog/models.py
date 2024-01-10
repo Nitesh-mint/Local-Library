@@ -50,6 +50,12 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
     
+    def display_genre(self):
+        """Create a string for genre. This is done because it genre is ManyToManyField."""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+    
+    display_genre.short_description = 'Genre'
+    
 class BookInstance(models.Model):
     """ Model representing a specific copy of book (i.e that can be borrowed from 
     the library)"""
@@ -79,6 +85,7 @@ class BookInstance(models.Model):
 
     def __str__(self):
         return f'{self.id} ({self.book.title})'
+    
 
 
 
@@ -92,7 +99,7 @@ class Author(models.Model):
         help_text = "Enter the lastname of the author"
     )
     date_of_birth = models.DateField(null=True, blank=True)
-    date_of_date = models.DateField('Died', null=True, blank=True)
+    date_of_date = models.DateField('Died', null=True, blank=True) # 'Died' here will be shown in admin panel instead of fieldname
 
     class Meta:
         ordering = ['last_name', 'first_name']
